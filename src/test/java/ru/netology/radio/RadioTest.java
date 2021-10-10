@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RadioTest {
     @Test
     public void shouldSetAllowedStation() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(9);
         int newValue = 5;
         radio.setStation(newValue);
         int actual = radio.getStation();
@@ -17,7 +17,7 @@ public class RadioTest {
 
     @Test
     public void shouldNotSetDisallowedStation() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(15);
         int newValue = 15;
         radio.setStation(newValue);
         int actual = radio.getStation();
@@ -46,8 +46,8 @@ public class RadioTest {
 
     @Test
     public void shouldSwitchToFirstStation() {
-        Radio radio = new Radio();
-        radio.setStation(9);
+        Radio radio = new Radio(20);
+        radio.setStation(19);
         radio.nextStation();
         int actual = radio.getStation();
         int expected = 0;
@@ -56,10 +56,10 @@ public class RadioTest {
 
     @Test
     public void shouldSwitchToLastStation() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(100);
         radio.prevStation();
         int actual = radio.getStation();
-        int expected = 9;
+        int expected = 99;
         assertEquals(expected, actual);
     }
 
@@ -78,21 +78,18 @@ public class RadioTest {
         Radio radio = new Radio();
         radio.increaseVolume();
         int actual = radio.getVolume();
-        int expected = 6;
+        int expected = 51;
         assertEquals(expected, actual);
     }
 
     @Test
     public void shouldIncreaseVolumeToMaximum() {
         Radio radio = new Radio();
-        radio.increaseVolume();
-        radio.increaseVolume();
-        radio.increaseVolume();
-        radio.increaseVolume();
-        radio.increaseVolume(); // volume == 10
-        radio.increaseVolume(); // 11 is not possible
+        for (int i = 0; i < 50; i++) {
+            radio.increaseVolume();
+        }
         int actual = radio.getVolume();
-        int expected = 10;
+        int expected = 100;
         assertEquals(expected, actual);
     }
 
@@ -101,19 +98,16 @@ public class RadioTest {
         Radio radio = new Radio();
         radio.decreaseVolume();
         int actual = radio.getVolume();
-        int expected = 4;
+        int expected = 49;
         assertEquals(expected, actual);
     }
 
     @Test
     public void shouldDecreaseVolumeToMinimum() {
         Radio radio = new Radio();
-        radio.decreaseVolume();
-        radio.decreaseVolume();
-        radio.decreaseVolume();
-        radio.decreaseVolume();
-        radio.decreaseVolume(); // volume == 0
-        radio.decreaseVolume(); // -1 is not possible
+        for (int i = 50; i > 0; i--) {
+            radio.decreaseVolume();
+        }
         int actual = radio.getVolume();
         int expected = 0;
         assertEquals(expected, actual);
